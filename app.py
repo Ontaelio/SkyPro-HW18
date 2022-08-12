@@ -3,29 +3,38 @@
 
 # Пример
 
-# from flask import Flask
-# from flask_restx import Api
-#
-# from config import Config
+from flask import Flask
+from flask_restx import Api
+
+from config import Config
 # from models import Review, Book
-# from setup_db import db
+from setup_db import db
 # from views.books import book_ns
 # from views.reviews import review_ns
 #
 # функция создания основного объекта app
-# def create_app(config_object):
-#     app = Flask(__name__)
-#     app.config.from_object(config_object)
-#     register_extensions(app)
-#     return app
+from views.movies_views import movie_ns
+from views.genres_views import genre_ns
+from views.directors_views import director_ns
+
+
+def create_app(config_object):
+    appl = Flask(__name__)
+    appl.config.from_object(config_object)
+    register_extensions(appl)
+    return appl
 #
 #
 # функция подключения расширений (Flask-SQLAlchemy, Flask-RESTx, ...)
-# def register_extensions(app):
-#     db.init_app(app)
-#     api = Api(app)
-#     api.add_namespace(...)
-#     create_data(app, db)
+def register_extensions(appl):
+    db.init_app(appl)
+    api = Api(appl)
+    api.add_namespace(movie_ns)
+    api.add_namespace(genre_ns)
+    api.add_namespace(director_ns)
+    #create_data(app, db)
+
+
 #
 #
 # функция
@@ -36,11 +45,12 @@
 #         создать несколько сущностей чтобы добавить их в БД
 #
 #         with db.session.begin():
+#
 #             db.session.add_all(здесь список созданных объектов)
-#
-#
-# app = create_app(Config())
-# app.debug = True
-#
-# if __name__ == '__main__':
-#     app.run(host="localhost", port=10001, debug=True)
+
+config = Config()
+app = create_app(config)
+app.debug = True
+
+if __name__ == '__main__':
+    app.run(host="localhost", port=10001, debug=True)

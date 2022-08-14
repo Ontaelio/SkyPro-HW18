@@ -1,5 +1,6 @@
 from dao.models.directors_model import Director
 
+
 class DirectorDAO:
 
     def __init__(self, session):

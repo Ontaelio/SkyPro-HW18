@@ -50,6 +50,7 @@ def register_extensions(appl):
 
 config = Config()
 app = create_app(config)
+# register_extensions(app)
 app.debug = True
 
 if __name__ == '__main__':
